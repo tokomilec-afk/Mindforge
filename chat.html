@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIND/FORGE - Chat</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #0f172a; color: #f1f5f9; margin: 0; padding: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background-color: #020617; border-bottom: 1px solid #1e293b; position: sticky; top: 0; z-index: 50; padding: 15px; }
+        .nav-container { max-w: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .logo { font-size: 1.25rem; font-weight: bold; color: #ffffff; cursor: pointer; text-decoration: none; }
+        .logo span { color: #10b981; }
+        nav { display: flex; gap: 10px; }
+        .tab-btn { background: none; border: none; color: #94a3b8; padding: 8px 16px; font-weight: 500; font-size: 0.95rem; cursor: pointer; border-radius: 8px; text-decoration: none; transition: 0.2s; }
+        .tab-btn:hover { background-color: #1e293b; color: #f1f5f9; }
+        .tab-btn.active { background-color: #059669; color: #ffffff; }
+        main { flex-grow: 1; max-w: 1100px; width: 100%; margin: 0 auto; padding: 30px 15px; box-sizing: border-box; }
+        .chat-container { background-color: #020617; border: 1px solid #1e293b; border-radius: 16px; height: 60vh; display: flex; flex-direction: column; overflow: hidden; }
+        .chat-header { background-color: #0f172a; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; }
+        .chat-box { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .msg { max-width: 80%; padding: 14px 18px; border-radius: 16px; font-size: 0.95rem; line-height: 1.4; }
+        .msg.system { background-color: #0f172a; border: 1px solid #1e293b; color: #94a3b8; align-self: center; text-align: center; }
+        .msg.bot { background-color: #0f172a; border: 1px solid #1e293b; color: #e2e8f0; align-self: flex-start; border-top-left-radius: 0; }
+        .msg.user { background-color: rgba(5, 150, 105, 0.2); border: 1px solid rgba(16, 185, 129, 0.3); color: #e6f4ea; align-self: flex-end; border-top-right-radius: 0; }
+        .chat-form { padding: 15px; background-color: #0f172a; display: flex; gap: 10px; border-top: 1px solid #1e293b; }
+        .chat-input { flex-grow: 1; background-color: #020617; border: 1px solid #475569; border-radius: 10px; padding: 14px; color: white; }
+        .chat-submit { background-color: #059669; color: white; border: none; padding: 0 25px; border-radius: 10px; font-weight: 600; cursor: pointer; }
+        footer { background-color: #020617; border-top: 1px solid #1e293b; color: #475569; padding: 25px; text-align: center; font-size: 0.8rem; margin-top: auto; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">🛡️ MIND<span>FORGE</span></a>
+            <nav>
+                <a href="index.html" class="tab-btn">Accueil</a>
+                <a href="relaxation.html" class="tab-btn">Relaxation</a>
+                <a href="ressources.html" class="tab-btn">Ressources</a>
+                <a href="chat.html" class="tab-btn active">🟢 Chat Anonyme</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="chat-container">
+            <div class="chat-header">
+                <div><h4 style="margin: 0; color: white;">Canal Écoute Éphémère</h4></div>
+                <div id="user-id" style="font-family: monospace; color: #34d399;">Anonyme_#7821</div>
+            </div>
+            <div class="chat-box" id="chat-box">
+                <div class="msg bot">Bienvenue à toi. Si tu as besoin de libérer une frustration accumulée ou de poser des mots sur une situation difficile, cet espace t'appartient. Qu'est-ce qui te pèse aujourd'hui ?</div>
+            </div>
+            <form class="chat-form" onsubmit="sendMessage(event)">
+                <input type="text" id="chat-input" class="chat-input" placeholder="Écrivez librement..." autocomplete="off">
+                <button type="submit" class="chat-submit">Envoyer</button>
+            </form>
+        </div>
+    </main>
+    <script>
+        function sendMessage(e) {
+            e.preventDefault();
+            var input = document.getElementById('chat-input');
+            var text = input.value.trim();
+            if (!text) return;
+            var chatBox = document.getElementById('chat-box');
+            var userDiv = document.createElement('div');
+            userDiv.className = 'msg user';
+            userDiv.innerText = text;
+            chatBox.appendChild(userDiv);
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+            setTimeout(function() {
+                var botDiv = document.createElement('div');
+                botDiv.className = 'msg bot';
+                botDiv.innerText = "Merci de partager cela. Formuler clairement ce que l'on ressent demande du courage. Sache que tu as le droit d'être fatigué, le plus important est de refuser de rester seul avec cette charge.";
+                chatBox.appendChild(botDiv);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1200);
+        }
+    </script>
+</body>
+</html>
