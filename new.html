@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIND/FORGE - Santé Mentale Masculine</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #0f172a; color: #f1f5f9; margin: 0; padding: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background-color: #020617; border-bottom: 1px solid #1e293b; position: sticky; top: 0; z-index: 50; padding: 15px; }
+        .nav-container { max-w: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .logo { font-size: 1.25rem; font-weight: bold; color: #ffffff; cursor: pointer; text-decoration: none; }
+        .logo span { color: #10b981; }
+        nav { display: flex; gap: 10px; }
+        .tab-btn { background: none; border: none; color: #94a3b8; padding: 8px 16px; font-weight: 500; font-size: 0.95rem; cursor: pointer; border-radius: 8px; transition: 0.2s; }
+        .tab-btn:hover { background-color: #1e293b; color: #f1f5f9; }
+        .tab-btn.active { background-color: #059669; color: #ffffff; }
+        .alert-banner { background-color: rgba(69, 10, 10, 0.6); border-bottom: 1px solid #7f1d1d; color: #fca5a5; text-align: center; padding: 12px; font-size: 0.9rem; font-weight: 500; }
+        main { flex-grow: 1; max-w: 1100px; width: 100%; margin: 0 auto; padding: 30px 15px; box-sizing: border-box; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .hero { text-align: center; max-w: 800px; margin: 40px auto; }
+        .hero h1 { font-size: 2.8rem; font-weight: 800; color: #ffffff; margin-bottom: 20px; line-height: 1.2; }
+        .hero h1 span { color: #34d399; }
+        .hero p { color: #94a3b8; font-size: 1.15rem; line-height: 1.6; }
+        .btn-primary { background-color: #059669; color: white; padding: 14px 28px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; margin: 10px; transition: 0.2s; font-size: 1rem; }
+        .btn-primary:hover { background-color: #10b981; }
+        .btn-secondary { background-color: #1e293b; color: #e2e8f0; padding: 14px 28px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; margin: 10px; transition: 0.2s; font-size: 1rem; }
+        .btn-secondary:hover { background-color: #334155; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 40px; }
+        .card { background-color: #020617; border: 1px solid #1e293b; padding: 25px; border-radius: 16px; }
+        .card h3 { color: #ffffff; margin-top: 0; font-size: 1.3rem; border-bottom: 2px solid #1e293b; padding-bottom: 10px; }
+        .card p { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; }
+        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .audio-card { background-color: #020617; border: 1px solid #1e293b; padding: 20px; border-radius: 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 15px; }
+        audio { width: 100%; margin-top: 10px; }
+        .img-card { background-color: #020617; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden; transition: 0.3s; }
+        .img-card:hover { transform: translateY(-5px); border-color: #34d399; }
+        .img-card img { width: 100%; height: 220px; object-fit: cover; }
+        .img-caption { padding: 15px; font-size: 0.85rem; color: #94a3b8; line-height: 1.4; }
+        .book-link { color: #34d399; text-decoration: none; font-size: 0.95rem; font-weight: 600; display: inline-block; margin-top: 15px; background-color: #0f172a; padding: 8px 16px; border-radius: 6px; border: 1px solid #1e293b; transition: 0.2s; }
+        .book-link:hover { background-color: #059669; color: white; }
+        .chat-container { background-color: #020617; border: 1px solid #1e293b; border-radius: 16px; height: 60vh; display: flex; flex-direction: column; overflow: hidden; }
+        .chat-header { background-color: #0f172a; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; }
+        .chat-box { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .msg { max-width: 80%; padding: 14px 18px; border-radius: 16px; font-size: 0.95rem; line-height: 1.5; }
+        .msg.system { background-color: #0f172a; border: 1px solid #1e293b; color: #94a3b8; align-self: center; text-align: center; max-width: 600px; border-radius: 12px; }
+        .msg.bot { background-color: #0f172a; border: 1px solid #1e293b; color: #e2e8f0; align-self: flex-start; border-top-left-radius: 0; }
+        .msg.user { background-color: rgba(5, 150, 105, 0.2); border: 1px solid rgba(16, 185, 129, 0.3); color: #e6f4ea; align-self: flex-end; border-top-right-radius: 0; }
+        .chat-form { padding: 15px; background-color: #0f172a; display: flex; gap: 10px; border-top: 1px solid #1e293b; }
+        .chat-input { flex-grow: 1; background-color: #020617; border: 1px solid #475569; border-radius: 10px; padding: 14px; color: white; font-size: 0.95rem; }
+        .chat-input:focus { outline: none; border-color: #10b981; }
+        .chat-submit { background-color: #059669; color: white; border: none; padding: 0 25px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .chat-submit:hover { background-color: #10b981; }
+        footer { background-color: #020617; border-top: 1px solid #1e293b; color: #475569; padding: 25px; text-align: center; font-size: 0.8rem; margin-top: auto; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+    <!-- BARRE DE NAVIGATION -->
+    <header>
+        <div class="nav-container">
+            <div class="logo" onclick="showTab('accueil')">🛡️ MIND<span>FORGE</span></div>
+            <nav>
+                <button id="btn-accueil" onclick="showTab('accueil')" class="tab-btn active">Accueil</button>
+                <button id="btn-relaxation" onclick="showTab('relaxation')" class="tab-btn">Relaxation</button>
+                <button id="btn-ressources" onclick="showTab('ressources')" class="tab-btn">Ressources</button>
+                <button id="btn-chat" onclick="showTab('chat')" class="tab-btn">🟢 Chat Anonyme</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- BANNIÈRE D'URGENCE -->
+    <div class="alert-banner">
+        🚨 <strong>Besoin d'un soutien immédiat ?</strong> Appelez le <strong>3114</strong> (Numéro National Prévention Suicide). Service gratuit, anonyme et disponible 24h/24 et 7j/7.
+    </div>
+
+    <!-- CONTENU PRINCIPAL -->
+    <main>
+
+        <!-- ONGLET : ACCUEIL -->
+        <section id="tab-accueil" class="tab-content active">
+            <div class="hero">
+                <h1>Prendre soin de sa santé mentale.<br><span>Une preuve de force, pas de faiblesse.</span></h1>
+                <p>Trop d'hommes souffrent en silence à cause des tabous. MIND/FORGE est une plateforme indépendante conçue pour vous offrir des outils concrets de décompression, de l'écoute anonyme et des lectures inspirantes. Sans inscription, sans jugement.</p>
+                <div style="margin-top: 25px;">
+                    <button onclick="showTab('chat')" class="btn-primary">💬 Accéder au Chat Anonyme</button>
+                    <button onclick="showTab('relaxation')" class="btn-secondary">Parcourir l'Espace Relaxation</button>
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="card">
+                    <h3>💡 Pourquoi cette plateforme ?</h3>
+                    <p>La pression sociale pousse souvent les hommes à masquer leur vulnérabilité. Nous croyons que la résilience commence par le droit de faire une pause, de s'informer et d'exprimer ce que l'on ressent sans crainte d'être étiqueté.</p>
+                </div>
+                <div class="card">
+                    <h3>🔋 Déconnecter du stress</h3>
+                    <p>Le stress chronique détruit la clarté d'esprit. Utilisez notre onglet de relaxation pour écouter des fréquences sonores apaisantes ou fixer des paysages épurés conçus pour réduire instantanément l'anxiété quotidienne.</p>
+                </div>
+                <div class="card">
+                    <h3>🧠 Se reconstruire par le savoir</h3>
+                    <p>La psychologie stoïcienne et les neurosciences offrent des clés majeures pour maîtriser ses émotions. Notre bibliothèque vous donne un accès direct à des ouvrages fondateurs pour muscler votre esprit.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ONGLET : RELAXATION -->
+        <section id="tab-relaxation" class="tab-content">
+            <h2 style="color: white; margin-bottom: 5px;">Espace de Décompression Visuelle et Sonore</h2>
+            <p style="color: #94a3b8; margin-bottom: 30px;">Isolez-vous du bruit. Branchez vos écouteurs, lancez une piste audio et fixez une image pour stabiliser votre rythme cardiaque.</p>
+
+            <h3 style="color: #34d399; margin-top: 30px;">🎵 Ambiances Sonores Immersives</h3>
+            <div class="media-grid" style="margin-bottom: 40px;">
+                <div class="audio-card">
+                    <div>
+                        <span style="font-size: 0.75rem; color: #64748b; font-weight: bold; text-transform: uppercase;">Aide au sommeil et calme</span>
+                        <h4 style="margin: 5px 0; color: white;">Pluie Battante en Forêt</h4>
+                    </div>
+                    <audio controls>
+                        <source src="https://soundhelix.com" type="audio/mp3">
+                    </audio>
+                </div>
+                <div class="audio-card">
+                    <div>
